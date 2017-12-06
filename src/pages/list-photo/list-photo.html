@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar color="dark-grey">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Gallery</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="no-padding" style="background: grey;">
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list class="no-padding">
+    <ion-item *ngFor="let file of listFile" class="no-padding" (tap)="openPhoto(file.localURL)"
+              style="border-bottom: 1px solid #dedede; background: grey;">
+      <div item-left>
+        <img class="object-fit_cover" [src]="sanitizeUrl(file.localURL)"/>
+      </div>
+      <ion-label class="itemName">
+        <p style="color: #d6d6d6; font-size: 1.7rem;">{{file.name}}</p>
+        <p>{{file.lastModified}}</p>
+        <p>{{file.size}}</p>
+      </ion-label>
+
+    </ion-item>
+  </ion-list>
+
+  <div style="height: 100px"></div>
+
+  <ion-fab right bottom style="margin: 13px;" (tap)="takePhoto()">
+    <button ion-fab color="light">
+      <ion-icon name="camera"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

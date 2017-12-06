@@ -1,15 +1,16 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark-grey">
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+  <ion-content style="background: grey">
+    <ion-list no-border>
+      <ion-item *ngFor="let p of pages" style="margin-top: 10px;" (tap)="openPage(p)" class="bkg-menu">
+        <ion-icon [name]="p.img" item-start style="color: #d6d6d6;"></ion-icon>
+        <p style="color: #d6d6d6;">{{p.title}}</p>
+      </ion-item>
     </ion-list>
   </ion-content>
 
