@@ -9,6 +9,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {Camera} from '@ionic-native/camera';
 import {File} from "@ionic-native/file";
 import {PhotoViewer} from '@ionic-native/photo-viewer';
+import {ImageResizer} from "@ionic-native/image-resizer";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {PhotoViewer} from '@ionic-native/photo-viewer';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
     File,
-    PhotoViewer
+    PhotoViewer,
+    ImageResizer
   ]
 })
 export class AppModule {

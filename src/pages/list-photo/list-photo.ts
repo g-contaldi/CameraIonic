@@ -12,6 +12,7 @@ import {File} from "@ionic-native/file";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {DomSanitizer} from "@angular/platform-browser";
+import {ImageResizer, ImageResizerOptions} from "@ionic-native/image-resizer";
 
 @IonicPage()
 @Component({
@@ -36,7 +37,8 @@ export class ListPhotoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,
               private file: File, public loadingCtrl: LoadingController, private photoViewer: PhotoViewer,
-              private camera: Camera, public platform: Platform, private _sanitizer: DomSanitizer) {
+              private camera: Camera, public platform: Platform, private _sanitizer: DomSanitizer,
+              private imageResizer: ImageResizer) {
     this.platform.ready().then(() => {
       this.showLoading();
       this.listDir();
@@ -47,9 +49,11 @@ export class ListPhotoPage {
     this.file.listDir('file:///storage/emulated/0/Android/data/io.ionic.camera/', 'files').then(res => {
       console.log(res)
       this.pictures = res;
+
       this.listFile = [];
       let that = this;
       for (let p of this.pictures) {
+        this.resizeImg(p.nativeURL, p.name);
         p.file(function (file) {
           console.log(file)
           file.size = (file.size / 1024 / 1024).toFixed(2).split('.').join(',') + ' MB';
@@ -117,7 +121,8 @@ export class ListPhotoPage {
     })
   }
 
-  sanitizeUrl(url) {
+  sanitizeUrl(name) {
+    let url = 'file:///storage/emulated/0/Android/data/io.ionic.camera/thumb/' + name;
     return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
@@ -127,6 +132,22 @@ export class ListPhotoPage {
     let name = pat[pat.length - 1]
     let url = 'file:///storage/emulated/0/Android/data/io.ionic.camera/files/' + name;
     this.photoViewer.show(url);
+  }
+
+  resizeImg(uri, name){
+    let options = {
+      uri: uri,
+      folderName: 'file:///storage/emulated/0/Android/data/io.ionic.camera/thumb',
+      quality: 50,
+      width: 300,
+      height: 300,
+      fileName: name
+    } as ImageResizerOptions;
+    this.imageResizer.resize(options).then(data =>{
+      console.log(data)
+    }, err =>{
+      console.log(err)
+    })
   }
 
   doRefresh(refresher) {

@@ -17,7 +17,7 @@
     <ion-item *ngFor="let file of listFile" class="no-padding" (tap)="openPhoto(file.localURL)"
               style="border-bottom: 1px solid #dedede; background: grey;">
       <div item-left>
-        <img class="object-fit_cover" [src]="sanitizeUrl(file.localURL)"/>
+        <img class="object-fit_cover" [src]="sanitizeUrl(file.name)"/>
       </div>
       <ion-label class="itemName">
         <p style="color: #d6d6d6; font-size: 1.7rem;">{{file.name}}</p>
